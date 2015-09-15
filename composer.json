@@ -1,0 +1,13 @@
+{
+    "name": "ajmichels/note-script",
+    "description": "A utility for note taking.",
+    "authors": [
+        {
+            "name": "AJ Michels",
+            "email": "ajmichels.web@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Ajmichels\\NoteScript\\": "src/"}
+    }
+}
