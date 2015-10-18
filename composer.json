@@ -1,6 +1,7 @@
 {
     "name": "ajmichels/note-script",
     "description": "A utility for note taking.",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "AJ Michels",
