@@ -1,0 +1,24 @@
+{
+    "name": "ajmichels/note-script",
+    "description": "A utility for note taking.",
+    "keywords": ["utility", "notes", "productivity", "markdown"],
+    "version": "0.0.1",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "AJ Michels",
+            "email": "ajmichels.web@gmail.com",
+            "twitter": "@ajmichels"
+        }
+    ],
+    "homepage": "http://github.com/ajmichels/note-script",
+    "support": {
+        "issues": "https://github.com/ajmichels/note-script/issues",
+        "wiki": "https://github.com/ajmichels/note-script/wiki"
+
+    },
+    "type": "project",
+    "autoload": {
+        "psr-4": {"Ajmichels\\NoteScript\\": "src/"}
+    }
+}

@@ -1,0 +1,16 @@
+# Note Script
+
+## Introduction
+This application is meant to assist in creating and maintaining text based notes at a rapid pace.
+
+## Requirements
+* PHP 5.4+
+
+## Copyright
+Copyright 2015, AJ Michels
+
+## License
+GNU GPL Version 3 (http://www.gnu.org/licenses/gpl-3.0.en.html)
+
+## Contributors
+* AJ Michels - @ajmichels
