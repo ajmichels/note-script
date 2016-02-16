@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-namespace Ajmichels\NoteScript;
+namespace NoteScript;
 
 use Monolog\Logger as Monolog;
 use Monolog\Handler\SyslogHandler;

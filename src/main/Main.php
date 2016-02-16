@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-namespace Ajmichels\NoteScript;
+namespace NoteScript;
 
 use \Exception;
 use \ErrorException;
