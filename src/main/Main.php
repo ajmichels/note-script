@@ -28,6 +28,13 @@ class Main
 
 
     private static $instance;
+    private $log;
+
+
+    private function __construct()
+    {
+        $this->log = new Logger(dirname(dirname(__DIR__)) . '/logs');
+    }
 
 
     public static function run()
@@ -58,7 +65,7 @@ class Main
             if ($homeDir !== false) {
                 $noteDir = $homeDir . '/notes';
             } else {
-                Logger::error('Configuration Error, No $HOME env var');
+                $this->log->error('Configuration Error, No $HOME env var');
                 throw new Exception('There is no $HOME environment variable defined.');
             }
 
@@ -76,14 +83,14 @@ class Main
 
             } catch (ErrorException $e) {
                 if (preg_match('/Undefined offset/i', $e->getMessage())) {
-                    Logger::warning('Missing Title Value');
+                    $this->log->warning('Missing Title Value');
                     throw new Exception('Argument `' . $args[$t] . '` must be followed by a value.');
                 }
 
             }
 
             if (substr($title, 0, 1) === '-' || substr($title, 0, 2) === '--') {
-                Logger::warning('Invalid Note Title', [$title]);
+                $this->log->warning('Invalid Note Title', [$title]);
                 throw new Exception('Title cannot start with - or --');
             }
 
@@ -106,7 +113,7 @@ class Main
             $heading = "# ${title}\n${currentDate}\n\n";
         } else {
             $heading = "# Note ${currentDate}\n\n";
-            Logger::info('Note Title Not Specified, Using Default', [$heading]);
+            $this->log->info('Note Title Not Specified, Using Default', [$heading]);
         }
 
         $content = $heading;
@@ -115,10 +122,10 @@ class Main
 
         // Create it if it doesn't exist
         if (!file_exists($filePath)) {
-            Logger::info('Note Created', [$filePath]);
+            $this->log->info('Note Created', [$filePath]);
             file_put_contents($filePath, $content);
         } else {
-            Logger::warning('Note Already Exists', [$filePath]);
+            $this->log->warning('Note Already Exists', [$filePath]);
             throw new Exception('There is already a note with this title (' . $filePath . ').');
         }
 
