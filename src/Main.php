@@ -32,7 +32,6 @@ class Main
 
     public static function run()
     {
-
         self::$instance = self::$instance ?: new self();
 
         try {
@@ -59,6 +58,7 @@ class Main
             if ($homeDir !== false) {
                 $noteDir = $homeDir . '/notes';
             } else {
+                Logger::error('Configuration Error, No $HOME env var');
                 throw new Exception('There is no $HOME environment variable defined.');
             }
 
@@ -71,18 +71,19 @@ class Main
         $t = $t === false ? array_search('--title', $args) : $t;
 
         if ($t !== false) {
-
             try {
                 $title = trim($args[$t+1]) ?: null;
 
             } catch (ErrorException $e) {
                 if (preg_match('/Undefined offset/i', $e->getMessage())) {
+                    Logger::warning('Missing Title Value');
                     throw new Exception('Argument `' . $args[$t] . '` must be followed by a value.');
                 }
 
             }
 
             if (substr($title, 0, 1) === '-' || substr($title, 0, 2) === '--') {
+                Logger::warning('Invalid Note Title', [$title]);
                 throw new Exception('Title cannot start with - or --');
             }
 
@@ -102,17 +103,22 @@ class Main
 
         if ($title) {
             $fileName .= '_' . $this->simplifyString($title);
-            $content = "# ${title}\n${currentDate}\n\n";
+            $heading = "# ${title}\n${currentDate}\n\n";
         } else {
-            $content = "# Note ${currentDate}\n\n";
+            $heading = "# Note ${currentDate}\n\n";
+            Logger::info('Note Title Not Specified, Using Default', [$heading]);
         }
+
+        $content = $heading;
 
         $filePath = $noteDir . '/' . $fileName . '.md';
 
         // Create it if it doesn't exist
         if (!file_exists($filePath)) {
+            Logger::info('Note Created', [$filePath]);
             file_put_contents($filePath, $content);
         } else {
+            Logger::warning('Note Already Exists', [$filePath]);
             throw new Exception('There is already a note with this title (' . $filePath . ').');
         }
 
