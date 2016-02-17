@@ -20,8 +20,8 @@
 
 namespace NoteScript;
 
-use \Exception;
-use \ErrorException;
+use Exception;
+use ErrorException;
 
 class Main
 {
