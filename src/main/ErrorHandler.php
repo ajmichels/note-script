@@ -1,8 +1,7 @@
-#!/usr/bin/env php
 <?php
 
 /**
- * Copyright 2015, AJ Michels
+ * Copyright 2016, AJ Michels
  *
  * This file is part of Note-Script.
  *
@@ -19,8 +18,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+namespace NoteScript;
 
-set_error_handler('NoteScript\ErrorHandler::handle');
+class ErrorHandler
+{
 
-NoteScript\Main::run();
+    public static function handle($severity, $message, $filename, $lineno)
+    {
+        // If the error reporting level is set to none exit the function
+        if (error_reporting() == 0) {
+            return;
+        }
+
+        // If the error being handled is included in the error reporting setting throw exception
+        if (error_reporting() & $severity) {
+            throw new ErrorException($message, 0, $severity, $filename, $lineno);
+        }
+    }
+
+}
