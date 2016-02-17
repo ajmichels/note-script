@@ -109,7 +109,7 @@ class Main
         $fileName = str_replace(' ', '-', $currentDate);
 
         if ($title) {
-            $fileName .= '_' . $this->simplifyString($title);
+            $fileName .= '_' . String::simplify($title);
             $heading = "# ${title}\n${currentDate}\n\n";
         } else {
             $heading = "# Note ${currentDate}\n\n";
@@ -131,19 +131,6 @@ class Main
 
         // Output the path
         echo $filePath;
-
-    }
-
-
-    private function simplifyString($str)
-    {
-        $str = strtolower($str);
-        $str = preg_replace('/[^a-zA-Z\d\s\\\\\-:]/', '', $str);
-        $str = preg_replace('/[\s\\\\]+/', '-', $str);
-        $str = substr($str, 0, 235);
-        $str = trim($str, '-');
-
-        return $str;
 
     }
 
