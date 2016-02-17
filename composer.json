@@ -20,6 +20,9 @@
     "autoload": {
         "psr-4": {"NoteScript\\": "src/main/"}
     },
+    "scripts": {
+        "test": "vendor/bin/phpunit && vendor/bin/phpcs"
+    },
     "require": {
         "monolog/monolog": "^1.17"
     },
