@@ -23,7 +23,15 @@ namespace NoteScript;
 class ErrorHandler
 {
 
-    public static function handle($severity, $message, $filename, $lineno)
+    /**
+     * Transforms PHP non-exception errors and warning into exceptions.
+     * @param  int     $severity  The level of the error raised, as an integer
+     * @param  string  $message   The error message, as a string
+     * @param  string  $filename  The filename that the error was raised in, as a string
+     * @param  int     $lineNum   The line number the error was raised at, as an integer
+     * @return null
+     */
+    public static function handle($severity, $message, $filename, $lineNum)
     {
         // If the error reporting level is set to none exit the function
         if (error_reporting() == 0) {
@@ -32,7 +40,7 @@ class ErrorHandler
 
         // If the error being handled is included in the error reporting setting throw exception
         if (error_reporting() & $severity) {
-            throw new ErrorException($message, 0, $severity, $filename, $lineno);
+            throw new ErrorException($message, 0, $severity, $filename, $lineNum);
         }
     }
 

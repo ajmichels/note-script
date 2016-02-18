@@ -20,16 +20,28 @@
 
 namespace NoteScript;
 
+/**
+ * Utility class for manipulating strings
+ */
 class String
 {
 
+    /**
+     * Strip whitespace and most special characters from a string.
+     * @param  string  $string  The string to be manipulated
+     * @return string           The simplified string
+     */
     public static function simplify($string)
     {
-
+        // convert to lower case
         $string = strtolower($string);
+        // remove special characters
         $string = preg_replace('/[^a-zA-Z\d\s\\\\\-:]/', '', $string);
+        // convert whitespace characters to hyphens
         $string = preg_replace('/[\s\\\\]+/', '-', $string);
+        // truncate the string to 235 characters or less
         $string = substr($string, 0, 235);
+        // remove any leading or trailing hyphens
         $string = trim($string, '-');
 
         return $string;
