@@ -10,4 +10,8 @@
         <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
     </rule>
 
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern>./src/tests/*</exclude-pattern>
+    </rule>
+
 </ruleset>
