@@ -17,7 +17,7 @@
     "support": {
         "issues": "https://github.com/ajmichels/note-script/issues",
         "wiki": "https://github.com/ajmichels/note-script/wiki",
-        "source": "https://github.com/ajmichels/note-script/archive/master.zip",
+        "source": "https://github.com/ajmichels/note-script/tarball/master",
         "rss": "https://github.com/ajmichels/note-script/master.atom"
     },
     "autoload": {
