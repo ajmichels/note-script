@@ -3,8 +3,8 @@ description: A script for note taking on unix/linux based systems written in PHP
 author: AJ Michels
 email: ajmichels.web@gmail.com
 permalink: pretty
-url: "https://ajmichels.github.io/note-script"
-baseurl: "/note-script"
+# url: "https://ajmichels.github.io/note-script"
+# baseurl: "/note-script"
 twitter_username: ajmichels
 github_username:  ajmichels
 markdown: kramdown
