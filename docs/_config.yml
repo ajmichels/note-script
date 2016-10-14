@@ -1,9 +1,11 @@
 title: NoteScript by AJ Michels
 description: A script for note taking on unix/linux based systems written in PHP.
 author: AJ Michels
-author_email: ajmichels.web@gmail.com
+email: ajmichels.web@gmail.com
 permalink: pretty
-theme: minima
+url: "https://ajmichels.github.io/note-script"
 baseurl: "/note-script"
 twitter_username: ajmichels
 github_username:  ajmichels
+markdown: kramdown
+theme: minima
