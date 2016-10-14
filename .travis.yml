@@ -4,4 +4,6 @@ php:
   - '7.0'
   - nightly
 install: composer install
-script: composer test
+script:
+  - composer lint
+  - composer unit-test

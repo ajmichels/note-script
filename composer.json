@@ -24,7 +24,8 @@
         "psr-4": {"NoteScript\\": "src/main/"}
     },
     "scripts": {
-        "test": ["@lint", "vendor/bin/phpunit"],
+        "test": ["@lint", "@unit-test"],
+        "unit-test": "vendor/bin/phpunit",
         "lint": "vendor/bin/phpcs -n"
     },
     "require": {
