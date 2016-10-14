@@ -23,7 +23,7 @@ namespace NoteScript;
 /**
  * Utility class for manipulating strings
  */
-class String
+class StringUtil
 {
 
     /**

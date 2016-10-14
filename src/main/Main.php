@@ -109,7 +109,7 @@ class Main
         $fileName = str_replace(' ', '-', $currentDate);
 
         if ($title) {
-            $fileName .= '_' . String::simplify($title);
+            $fileName .= '_' . StringUtil::simplify($title);
             $heading = "# ${title}\n${currentDate}\n\n";
         } else {
             $heading = "# Note ${currentDate}\n\n";
