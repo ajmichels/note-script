@@ -1,6 +1,5 @@
 ---
 title: Note-Script
-tagline: A script for note taking on unix/linux based systems written in PHP.
 ---
 
 # Introduction
