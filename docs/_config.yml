@@ -1,5 +1,5 @@
-title: NoteScript by AJ Michels
-tagline: A script for note taking on unix/linux based systems written in PHP.
+name: NoteScript by AJ Michels
+description: A script for note taking on unix/linux based systems written in PHP.
 author: AJ Michels
 author_email: ajmichels.web@gmail.com
 permalink: pretty

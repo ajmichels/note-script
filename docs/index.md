@@ -1,5 +1,6 @@
 ---
 title: Note-Script
+layout: page
 ---
 
 # Introduction
