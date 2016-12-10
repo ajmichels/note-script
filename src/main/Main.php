@@ -28,20 +28,21 @@ class Main
 
 
     private static $instance;
+    private $config;
     private $log;
 
 
     private function __construct()
     {
-        $this->log = new Logger(dirname(dirname(__DIR__)) . '/logs');
+        $this->config = Config::create();
+        $this->log = new Logger($this->config[self::LOG_DIR]);
     }
 
 
     public static function run()
     {
-        self::$instance = self::$instance ?: new self();
-
         try {
+            self::$instance = self::$instance ?: new self();
             self::$instance->process();
         } catch (Exception $e) {
             self::printException($e);
@@ -55,22 +56,6 @@ class Main
 
     public function process()
     {
-
-        $noteDir = getenv('NOTE_HOME');
-
-        // Establish the directory where notes will be stored
-        if ($noteDir === false) {
-            $homeDir = getenv('HOME');
-
-            if ($homeDir !== false) {
-                $noteDir = $homeDir . '/notes';
-            } else {
-                $this->log->error('Configuration Error, No $HOME env var');
-                throw new Exception('There is no $HOME environment variable defined.');
-            }
-
-        }
-
         // Capture arguments
         $args = array_slice($_SERVER['argv'], 1);
 
@@ -100,8 +85,8 @@ class Main
         }
 
         // Create the directory if it doesn't exist
-        if (!is_dir($noteDir)) {
-            mkdir($noteDir);
+        if (!is_dir($this->config[Config::NOTE_DIR])) {
+            mkdir($this->config[Config::NOTE_DIR]);
         }
 
         // Define the filename
@@ -118,7 +103,7 @@ class Main
 
         $content = $heading;
 
-        $filePath = $noteDir . '/' . $fileName . '.md';
+        $filePath = $this->config[Config::NOTE_DIR] . '/' . $fileName . '.md';
 
         // Create it if it doesn't exist
         if (!file_exists($filePath)) {
