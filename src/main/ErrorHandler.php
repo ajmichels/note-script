@@ -20,6 +20,8 @@
 
 namespace NoteScript;
 
+use ErrorException;
+
 class ErrorHandler
 {
 
