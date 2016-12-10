@@ -1,4 +1,5 @@
-# Note Script
+# Note Script 
+[![](https://travis-ci.org/ajmichels/note-script.svg?branch=master)](https://travis-ci.org/ajmichels/note-script)
 
 ## Introduction
 This application is meant to assist in creating and maintaining text based notes at a rapid pace.
