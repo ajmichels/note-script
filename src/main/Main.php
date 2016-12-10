@@ -22,35 +22,43 @@ namespace NoteScript;
 
 use Exception;
 use ErrorException;
+use Psr\Log\LoggerInterface;
 
 class Main
 {
 
-
-    private static $instance;
+    /**
+     * @var NoteScript\Config
+     */
     private $config;
+
+    /**
+     * @var Psr\Log\LoggerInterface
+     */
     private $log;
 
-
-    private function __construct()
+    /**
+     * Constructor
+     * @param NoteScript\Config       $config
+     * @param Psr\Log\LoggerInterface $logger
+     */
+    private function __construct(Config $config, LoggerInterface $logger)
     {
-        $this->config = Config::create();
-        $this->log = new Logger($this->config[self::LOG_DIR]);
+        $this->config = $config;
+        $this->log = $logger;
     }
-
 
     public static function run()
     {
         try {
-            self::$instance = self::$instance ?: new self();
-            self::$instance->process();
+            $config = Config::create();
+            $logger = new Logger($this->config[self::LOG_DIR]);
+            (new Main($config, $logger))->process();
+            exit(0);
         } catch (Exception $e) {
             self::printException($e);
             exit(1);
         }
-
-        return self::$instance;
-
     }
 
 
