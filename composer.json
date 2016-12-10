@@ -23,6 +23,9 @@
     "autoload": {
         "psr-4": {"NoteScript\\": "src/main/"}
     },
+    "autoload-dev": {
+        "psr-4": {"NoteScript\\": "src/tests/"}
+    },
     "scripts": {
         "test": ["@lint", "@unit-test"],
         "unit-test": "vendor/bin/phpunit",
