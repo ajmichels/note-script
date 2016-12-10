@@ -7,7 +7,7 @@ This application is meant to assist in creating and maintaining text based notes
 Read the [documentation](http://ajmichels.github.io/note-script/) for additional information.
 
 ## Requirements
-* PHP 5.4+
+* PHP 5.6+
 
 ## Copyright
 Copyright 2015, AJ Michels
