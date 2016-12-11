@@ -32,3 +32,4 @@ class Foo implements ArrayAccess
 
 $foo = new Foo(['bar'=>'biz']);
 $foo['bar'] = 'baz';
+unset($foo['bar']);

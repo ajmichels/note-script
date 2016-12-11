@@ -78,45 +78,7 @@ class ConfigTest extends TestCase
         $this->assertNull($config[self::TEST_KEY]);
     }
 
-    /**
-     * @expectedException NoteScript\ConfigException
-     * @expectedExceptionMessage NoteScript\ConfigException::MSG_READ_ONLY
-     */
-    public function testOffsetSet_asFunction_withException()
-    {
-        $config = $this->getTestObjectEmpty();
-        $config->offsetSet(self::TEST_KEY, self::TEST_VALUE);
-    }
 
-    /**
-     * @expectedException NoteScript\ConfigException
-     * @expectedExceptionMessage NoteScript\ConfigException::MSG_READ_ONLY
-     */
-    public function testOffsetSet_asArray_withException()
-    {
-        $config = $this->getTestObjectEmpty();
-        $config[self::TEST_KEY] = self::TEST_VALUE;
-    }
-
-    /**
-     * @expectedException NoteScript\ConfigException
-     * @expectedExceptionMessage NoteScript\ConfigException::MSG_NOT_REMOVABLE
-     */
-    public function testOffsetUnset_asFunction_withException()
-    {
-        $config = $this->getTestObjectPopulated();
-        $config->offsetUnset(self::TEST_KEY);
-    }
-
-    /**
-     * @expectedException NoteScript\ConfigException
-     * @expectedExceptionMessage NoteScript\ConfigException::MSG_NOT_REMOVABLE
-     */
-    public function testOffsetUnset_asArray_withException()
-    {
-        $config = $this->getTestObjectPopulated();
-        unset($config[self::TEST_KEY]);
-    }
 
     /**
      * @expectedException Exception
