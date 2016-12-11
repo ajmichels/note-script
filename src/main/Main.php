@@ -20,6 +20,7 @@
 
 namespace NoteScript;
 
+use DateTime;
 use Exception;
 use ErrorException;
 use Psr\Log\LoggerInterface;
@@ -27,10 +28,17 @@ use Psr\Log\LoggerInterface;
 class Main
 {
 
+    const DATE_FORMAT = 'Y-m-d h-i-s';
+
     /**
      * @var NoteScript\Config
      */
     private $config;
+
+    /**
+     * @var NoteScript\FileUtil
+     */
+    private $fileUtil;
 
     /**
      * @var Psr\Log\LoggerInterface
@@ -42,9 +50,10 @@ class Main
      * @param NoteScript\Config       $config
      * @param Psr\Log\LoggerInterface $logger
      */
-    private function __construct(Config $config, LoggerInterface $logger)
+    private function __construct(Config $config, FileUtil $fileUtil, LoggerInterface $logger)
     {
         $this->config = $config;
+        $this->fileUtil = $fileUtil;
         $this->log = $logger;
     }
 
@@ -52,8 +61,9 @@ class Main
     {
         try {
             $config = Config::create();
-            $logger = new Logger($this->config[self::LOG_DIR]);
-            (new Main($config, $logger))->process();
+            $logger = new Logger($config[Config::LOG_DIR]);
+            $fileUtil = new FileUtil($logger);
+            echo (new Main($config, $fileUtil, $logger))->process();
             exit(0);
         } catch (Exception $e) {
             self::printException($e);
@@ -61,72 +71,85 @@ class Main
         }
     }
 
-
     public function process()
     {
-        // Capture arguments
+        $date = new DateTime();
+        $title = $this->getTitleFromArgs();
+        $header = self::generateNoteHeader($date, $title);
+        $fileName = self::generateFileName($date, $title);
+        $filePath = sprintf('%s/%s.md', $this->config[Config::NOTE_DIR], $fileName);
+        $this->fileUtil->writeFile($filePath, $header);
+
+        return $filePath;
+    }
+
+    /**
+     * Retrieves a title value from command line arguments.
+     * @throws Exception
+     * @return string|null
+     */
+    private function getTitleFromArgs()
+    {
+        $title = null;
         $args = array_slice($_SERVER['argv'], 1);
+        $titleArg = array_search('-t', $args);
+        $titleArg = $titleArg === false ? array_search('--title', $args) : $titleArg;
 
-        $t = array_search('-t', $args);
-        $t = $t === false ? array_search('--title', $args) : $t;
-
-        if ($t !== false) {
+        if ($titleArg !== false) {
             try {
-                $title = trim($args[$t+1]) ?: null;
+                $title = trim($args[$titleArg+1]) ?: null;
 
-            } catch (ErrorException $e) {
-                if (preg_match('/Undefined offset/i', $e->getMessage())) {
+            } catch (ErrorException $exception) {
+                if (preg_match('/Undefined offset/i', $exception->getMessage())) {
                     $this->log->warning('Missing Title Value');
-                    throw new Exception('Argument `' . $args[$t] . '` must be followed by a value.');
+                    throw new Exception('Argument `' . $args[$titleArg] . '` must be followed by a value.');
                 }
 
+                throw $exception;
             }
 
             if (substr($title, 0, 1) === '-' || substr($title, 0, 2) === '--') {
                 $this->log->warning('Invalid Note Title', [$title]);
                 throw new Exception('Title cannot start with - or --');
             }
-
-        } else {
-            $title = null;
-
         }
 
-        // Create the directory if it doesn't exist
-        if (!is_dir($this->config[Config::NOTE_DIR])) {
-            mkdir($this->config[Config::NOTE_DIR]);
-        }
+        return $title;
+    }
 
-        // Define the filename
-        $currentDate = date('Y-m-d h-i-s');
-        $fileName = str_replace(' ', '-', $currentDate);
+    /**
+     * Generate a file name.
+     * @param  DateTime $date  A date to be used in the file name
+     * @param  string|null $title A title to include in the file name
+     * @return string
+     */
+    public static function generateFileName(DateTime $date, $title = null)
+    {
+        $fileName = str_replace(' ', '-', $date->format(self::DATE_FORMAT));
 
         if ($title) {
             $fileName .= '_' . StringUtil::simplify($title);
-            $heading = "# ${title}\n${currentDate}\n\n";
-        } else {
-            $heading = "# Note ${currentDate}\n\n";
-            $this->log->info('Note Title Not Specified, Using Default', [$heading]);
         }
 
-        $content = $heading;
-
-        $filePath = $this->config[Config::NOTE_DIR] . '/' . $fileName . '.md';
-
-        // Create it if it doesn't exist
-        if (!file_exists($filePath)) {
-            $this->log->info('Note Created', [$filePath]);
-            file_put_contents($filePath, $content);
-        } else {
-            $this->log->warning('Note Already Exists', [$filePath]);
-            throw new Exception('There is already a note with this title (' . $filePath . ').');
-        }
-
-        // Output the path
-        echo $filePath;
-
+        return $fileName;
     }
 
+    /**
+     * Generates header text for a new note file.
+     * @param  DateTime    $date  A date to be used in the header
+     * @param  string|null $title An optional title to use in generating the header.
+     * @return string
+     */
+    public static function generateNoteHeader(DateTime $date, $title = null)
+    {
+        $header = sprintf("# Note %s\n\n", $date->format(self::DATE_FORMAT));
+
+        if ($title) {
+            $header = sprintf("# %s\n%s\n\n", $title, $date->format(self::DATE_FORMAT));
+        }
+
+        return $header;
+    }
 
     public static function printException(Exception $e)
     {
