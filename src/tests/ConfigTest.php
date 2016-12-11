@@ -118,6 +118,14 @@ class ConfigTest extends TestCase
         unset($config[self::TEST_KEY]);
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testFoo()
+    {
+        include dirname(dirname(__DIR__)) . '/fooTest.php';
+    }
+
     public function testCreate_noteHome()
     {
         putenv(Config::ENV_VAR_NOTE_HOME . '=' . self::TEST_NOTE_HOME);
