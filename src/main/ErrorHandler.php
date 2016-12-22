@@ -20,6 +20,12 @@
 
 namespace NoteScript;
 
+use ErrorException;
+use Exception;
+
+/**
+ * Used to capture, interpret, and output errors and exceptions.
+ */
 class ErrorHandler
 {
 
@@ -42,6 +48,18 @@ class ErrorHandler
         if (error_reporting() & $severity) {
             throw new ErrorException($message, 0, $severity, $filename, $lineNum);
         }
+    }
+
+    /**
+     * Takes an exception object and prints it as a string to STDERR
+     * @param  Exception $e The exception to print
+     * @return null
+     */
+    public static function printException(Exception $e)
+    {
+        $stderr = fopen('php://stderr', 'w');
+        fwrite($stderr, (string) $e);
+        fclose($stderr);
     }
 
 }

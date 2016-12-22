@@ -20,31 +20,14 @@
 
 namespace NoteScript;
 
+use RuntimeException;
+
 /**
- * Utility class for manipulating strings.
+ * Exceptions that are thrown when there are problems with the application configuration.
  */
-class StringUtil
+class ConfigException extends RuntimeException
 {
-
-    /**
-     * Strip whitespace and most special characters from a string.
-     * @param  string  $string  The string to be manipulated
-     * @return string           The simplified string
-     */
-    public static function simplify($string)
-    {
-        // convert to lower case
-        $string = strtolower($string);
-        // remove special characters
-        $string = preg_replace('/[^a-zA-Z\d\s\\\\\-:]/', '', $string);
-        // convert whitespace characters to hyphens
-        $string = preg_replace('/[\s\\\\]+/', '-', $string);
-        // truncate the string to 235 characters or less
-        $string = substr($string, 0, 235);
-        // remove any leading or trailing hyphens
-        $string = trim($string, '-');
-
-        return $string;
-    }
-
+    const MSG_READ_ONLY = 'Config values are read only.';
+    const MSG_NOT_REMOVABLE = 'Config values cannot be removed.';
+    const MSG_MISSING_ENV_VAR = 'There is no $%s environment variable defined.';
 }

@@ -2,7 +2,7 @@
     "name": "ajmichels/note-script",
     "description": "A utility for note taking.",
     "keywords": ["utility", "notes", "productivity", "markdown"],
-    "version": "0.0.1",
+    "version": "0.1.0",
     "license": "GPL-2.0",
     "type": "project",
     "authors": [
