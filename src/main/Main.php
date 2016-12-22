@@ -82,7 +82,7 @@ class Main
         $header = self::generateNoteHeader($date, $title);
         $fileName = self::generateFileName($date, $title);
         $filePath = sprintf('%s/%s.md', $this->config[Config::NOTE_DIR], $fileName);
-        $this->fileUtil->writeFile($filePath, $header);
+        $this->fileUtil->writeFile($filePath, $header . self::readStdIn());
 
         return $filePath;
     }
@@ -155,5 +155,15 @@ class Main
         return $header;
     }
 
+    /**
+     * Retrieve any standard in content that was piped into the script.
+     * @return string
+     */
+    public static function readStdIn()
+    {
+        // prevent the read from waiting for user input
+        stream_set_blocking(STDIN, 0);
+        return trim(stream_get_contents(STDIN));
+    }
 
 }
