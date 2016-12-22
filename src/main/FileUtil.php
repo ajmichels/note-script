@@ -23,6 +23,9 @@ namespace NoteScript;
 use Exception;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Provides methods for manipulating files.
+ */
 class FileUtil
 {
 

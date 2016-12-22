@@ -22,6 +22,9 @@ namespace NoteScript;
 
 use ArrayAccess;
 
+/**
+ * Initializes and stores application configuration data.
+ */
 class Config implements ArrayAccess
 {
 

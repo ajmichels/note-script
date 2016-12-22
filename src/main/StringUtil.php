@@ -21,7 +21,7 @@
 namespace NoteScript;
 
 /**
- * Utility class for manipulating strings
+ * Utility class for manipulating strings.
  */
 class StringUtil
 {

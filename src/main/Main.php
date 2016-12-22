@@ -25,6 +25,10 @@ use Exception;
 use ErrorException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * The primary entry point for the application. All application execution is funneled through this
+ * class.
+ */
 class Main
 {
 

@@ -22,6 +22,9 @@ namespace NoteScript;
 
 use RuntimeException;
 
+/**
+ * Exceptions that are thrown when there are problems with the application configuration.
+ */
 class ConfigException extends RuntimeException
 {
     const MSG_READ_ONLY = 'Config values are read only.';

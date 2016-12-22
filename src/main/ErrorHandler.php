@@ -22,6 +22,9 @@ namespace NoteScript;
 
 use ErrorException;
 
+/**
+ * Used to capture, interpret, and output errors and exceptions.
+ */
 class ErrorHandler
 {
 

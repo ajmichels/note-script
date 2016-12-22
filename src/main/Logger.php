@@ -24,6 +24,9 @@ use Monolog\Logger as Monolog;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\RotatingFileHandler;
 
+/**
+ * Writes and manages application logs.
+ */
 class Logger extends Monolog
 {
 
