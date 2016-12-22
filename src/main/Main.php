@@ -65,7 +65,7 @@ class Main
     {
         try {
             $config = Config::create();
-            $logger = new Logger($config[Config::LOG_DIR]);
+            $logger = new Logger();
             $fileUtil = new FileUtil($logger);
             echo (new Main($config, $fileUtil, $logger))->process();
             exit(0);
