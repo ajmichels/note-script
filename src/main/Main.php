@@ -70,7 +70,7 @@ class Main
             echo (new Main($config, $fileUtil, $logger))->process();
             exit(0);
         } catch (Exception $e) {
-            self::printException($e);
+            ErrorHandler::printException($e);
             exit(1);
         }
     }
@@ -153,22 +153,6 @@ class Main
         }
 
         return $header;
-    }
-
-    public static function printException(Exception $e)
-    {
-        $stderr = fopen('php://stderr', 'w');
-        $argv = $_SERVER['argv'];
-
-        $verbose = array_search('-v', $argv);
-        $verbose = $verbose === false ? array_search('--verbose', $argv) : $verbose;
-
-        if ($verbose !== false) {
-            fwrite($stderr, (string) $e);
-        } else {
-            fwrite($stderr, $e->getMessage());
-        }
-
     }
 
 
