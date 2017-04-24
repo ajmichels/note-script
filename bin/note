@@ -19,7 +19,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+$possibleAutoloadPaths = [
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+];
+
+$autoload = null;
+foreach ($possibleAutoloadPaths as $autoloadPath) {
+    if (file_exists($autoloadPath)) {
+        $autoload = require $autoloadPath;
+        break;
+    }
+}
+
+if (!$autoload) {
+    fwrite(STDERR, sprintf(
+        'You need to set up the project dependencies using Composer: %1$s%1$s' .
+        '    composer require ajmichels/note-script%1$s%1$s' .
+        'You can learn all about Composer on https://getcomposer.org/.%1$s',
+        PHP_EOL
+    ));
+
+    die(1);
+}
 
 set_error_handler('NoteScript\ErrorHandler::handle');
 
