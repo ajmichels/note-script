@@ -174,7 +174,7 @@ class ConfigTest extends TestCase
     {
         putenv(Config::ENV_VAR_HOME);
         putenv(Config::ENV_VAR_NOTE_HOME);
-        $config = Config::create();
+        Config::create();
     }
 
     private function getTestObjectPopulated()

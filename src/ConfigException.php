@@ -30,4 +30,12 @@ class ConfigException extends RuntimeException
     const MSG_READ_ONLY = 'Config values are read only.';
     const MSG_NOT_REMOVABLE = 'Config values cannot be removed.';
     const MSG_MISSING_ENV_VAR = 'There is no $%s environment variable defined.';
+
+    private $data;
+
+    public function __construct($message, $data = [], $code = 0, \Throwable $previous = null)
+    {
+        $this->data = $data;
+        parent::__construct($message, $code, $previous);
+    }
 }

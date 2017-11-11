@@ -35,7 +35,7 @@ class ErrorHandlerTest extends TestCase
     public function handleNoErrorReportingNull()
     {
         ini_set('error_reporting', 0);
-        $result = ErrorHandler::handle(
+        ErrorHandler::handle(
             self::TEST_SEVERITY,
             self::TEST_MESSAGE,
             self::TEST_FILENAME,

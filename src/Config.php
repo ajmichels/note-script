@@ -90,7 +90,7 @@ class Config implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        throw new ConfigException(ConfigException::MSG_READ_ONLY);
+        throw new ConfigException(ConfigException::MSG_READ_ONLY, [$offset, $value]);
     }
 
     /**
@@ -102,7 +102,7 @@ class Config implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        throw new ConfigException(ConfigException::MSG_NOT_REMOVABLE);
+        throw new ConfigException(ConfigException::MSG_NOT_REMOVABLE, [$offset]);
     }
 
     /**
