@@ -52,13 +52,13 @@ class ErrorHandler
 
     /**
      * Takes an exception object and prints it as a string to STDERR
-     * @param  Exception $e The exception to print
+     * @param  Exception $exception The exception to print
      * @return null
      */
-    public static function printException(Exception $e)
+    public static function printException(Exception $exception)
     {
         $stderr = fopen('php://stderr', 'w');
-        fwrite($stderr, (string) $e);
+        fwrite($stderr, (string) $exception);
         fclose($stderr);
     }
 }

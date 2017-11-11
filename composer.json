@@ -33,8 +33,8 @@
         "ci-unit-test": "vendor/bin/phpunit --bootstrap=vendor/autoload.php tests",
         "lint": "vendor/bin/phpcs --standard=PSR2 --colors --runtime-set ignore_warnings_on_exit true src tests bin/note",
         "ci-lint": "vendor/bin/phpcs --standard=PSR2 -n src tests bin/note",
-        "mess-detect": "vendor/bin/phpmd src,bin/note,tests text unusedcode,design --ignore-violations-on-exit",
-        "ci-mess-detect": "vendor/bin/phpmd src,bin/note,tests text unusedcode,design"
+        "mess-detect": "vendor/bin/phpmd src,bin/note,tests text unusedcode,design,naming --ignore-violations-on-exit",
+        "ci-mess-detect": "vendor/bin/phpmd src,bin/note,tests text unusedcode,design,naming"
     },
     "require": {
         "php": ">=5.6",
