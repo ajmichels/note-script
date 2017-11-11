@@ -21,7 +21,7 @@
         "rss": "https://github.com/ajmichels/note-script/master.atom"
     },
     "autoload": {
-        "psr-4": {"NoteScript\\": "src/main/"}
+        "psr-4": {"NoteScript\\": "src/"}
     },
     "autoload-dev": {
         "psr-4": {"NoteScript\\": "tests/"}
