@@ -61,5 +61,4 @@ class ErrorHandler
         fwrite($stderr, (string) $e);
         fclose($stderr);
     }
-
 }

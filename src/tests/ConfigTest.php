@@ -24,108 +24,141 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 class ConfigTest extends TestCase
 {
-
     const TEST_KEY = 'foo';
     const TEST_VALUE = 'bar';
     const TEST_HOME = '/tmp/home';
     const TEST_NOTE_HOME = '/tmp/note_home';
 
-    public function testOffsetExists_asFunction_true()
+    /**
+     * @test
+     */
+    public function offsetExistsAsFunctionTrue()
     {
         $config = $this->getTestObjectPopulated();
         $this->assertTrue($config->offsetExists(self::TEST_KEY));
     }
 
-    public function testOffsetExists_asFunction_false()
+    /**
+     * @test
+     */
+    public function offsetExistsAsFunctionFalse()
     {
         $config = $this->getTestObjectPopulated();
         $this->assertTrue(isset($config[self::TEST_KEY]));
     }
 
-    public function testOffsetExists_asArray_true()
+    /**
+     * @test
+     */
+    public function offsetExistsAsArrayTrue()
     {
         $config = $this->getTestObjectEmpty();
         $this->assertFalse($config->offsetExists(self::TEST_KEY));
     }
 
-    public function testOffsetExists_asArray_false()
+    /**
+     * @test
+     */
+    public function offsetExistsAsArrayFalse()
     {
         $config = $this->getTestObjectEmpty();
         $this->assertFalse(isset($config[self::TEST_KEY]));
     }
 
-    public function testOffsetGet_asFunction_exists()
+    /**
+     * @test
+     */
+    public function offsetGetAsFunctionExists()
     {
         $config = $this->getTestObjectPopulated();
         $this->assertEquals(self::TEST_VALUE, $config->offsetGet(self::TEST_KEY));
     }
 
-    public function testOffsetGet_asFunction_notExists()
+    /**
+     * @test
+     */
+    public function offsetGetAsFunctionNotExists()
     {
         $config = $this->getTestObjectEmpty();
         $this->assertNull($config->offsetGet(self::TEST_KEY));
     }
 
-    public function testOffsetGet_asArray_exists()
+    /**
+     * @test
+     */
+    public function offsetGetAsArrayExists()
     {
         $config = $this->getTestObjectPopulated();
         $this->assertEquals(self::TEST_VALUE, $config[self::TEST_KEY]);
     }
 
-    public function testOffsetGet_asArray_notExists()
+    /**
+     * @test
+     */
+    public function offsetGetAsArrayNotExists()
     {
         $config = $this->getTestObjectEmpty();
         $this->assertNull($config[self::TEST_KEY]);
     }
 
     /**
+     * @test
      * @expectedException NoteScript\ConfigException
      * @expectedExceptionMessage NoteScript\ConfigException::MSG_READ_ONLY
      */
-    public function testOffsetSet_asFunction_withException()
+    public function offsetSetAsFunctionWithException()
     {
         $config = $this->getTestObjectEmpty();
         $config->offsetSet(self::TEST_KEY, self::TEST_VALUE);
     }
 
     /**
+     * @test
      * @expectedException NoteScript\ConfigException
      * @expectedExceptionMessage NoteScript\ConfigException::MSG_READ_ONLY
      */
-    public function testOffsetSet_asArray_withException()
+    public function offsetSetAsArrayWithException()
     {
         $config = $this->getTestObjectEmpty();
         $config[self::TEST_KEY] = self::TEST_VALUE;
     }
 
     /**
+     * @test
      * @expectedException NoteScript\ConfigException
      * @expectedExceptionMessage NoteScript\ConfigException::MSG_NOT_REMOVABLE
      */
-    public function testOffsetUnset_asFunction_withException()
+    public function offsetUnsetAsFunctionWithException()
     {
         $config = $this->getTestObjectPopulated();
         $config->offsetUnset(self::TEST_KEY);
     }
 
     /**
+     * @test
      * @expectedException NoteScript\ConfigException
      * @expectedExceptionMessage NoteScript\ConfigException::MSG_NOT_REMOVABLE
      */
-    public function testOffsetUnset_asArray_withException()
+    public function offsetUnsetAsArrayWithException()
     {
         $config = $this->getTestObjectPopulated();
         unset($config[self::TEST_KEY]);
     }
 
-    public function testCreate_noteHome()
+    /**
+     * @test
+     */
+    public function createNoteHome()
     {
         putenv(Config::ENV_VAR_NOTE_HOME . '=' . self::TEST_NOTE_HOME);
         $config = Config::create();
         $this->assertEquals(self::TEST_NOTE_HOME, $config[Config::NOTE_DIR]);
     }
 
-    public function testCreate_noNoteHome()
+    /**
+     * @test
+     */
+    public function createNoNoteHome()
     {
         putenv(Config::ENV_VAR_HOME . '=' . self::TEST_HOME);
         putenv(Config::ENV_VAR_NOTE_HOME);
@@ -134,9 +167,10 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException NoteScript\ConfigException
      */
-    public function testCreate_noHome_exception()
+    public function createNoHomeException()
     {
         putenv(Config::ENV_VAR_HOME);
         putenv(Config::ENV_VAR_NOTE_HOME);
@@ -152,5 +186,4 @@ class ConfigTest extends TestCase
     {
         return new Config([]);
     }
-
 }

@@ -25,7 +25,6 @@ use Psr\Log\NullLogger;
 
 class FileUtilTest extends TestCase
 {
-
     const TEST_FILEPATH = '/tmp/file-util-test-dir/file-util-test-file';
     const TEST_CONTENT = 'foo bar baz';
 
@@ -41,31 +40,40 @@ class FileUtilTest extends TestCase
         }
     }
 
-    public function testWriteFile_createDir()
+    /**
+     * @test
+     */
+    public function writeFileCreateDir()
     {
         $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertTrue(is_dir(dirname(self::TEST_FILEPATH)));
     }
 
     /**
+     * @test
      * @expectedException Exception
      */
-    public function testWriteFile_fileExists_exception()
+    public function writeFileFileExistsException()
     {
         $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
     }
 
-    public function testWriteFile_fileCreated_fileExists()
+    /**
+     * @test
+     */
+    public function writeFileFileCreatedFileExists()
     {
         $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertTrue(file_exists(self::TEST_FILEPATH));
     }
 
-    public function testWriteFile_fileCreated_hasContent()
+    /**
+     * @test
+     */
+    public function writeFileFileCreatedHasContent()
     {
         $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertEquals(self::TEST_CONTENT, file_get_contents(self::TEST_FILEPATH));
     }
-
 }

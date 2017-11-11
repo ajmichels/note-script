@@ -77,5 +77,4 @@ class FileUtil
         chmod($path, self::DEFAULT_FILE_MODE);
         $this->logger->info(sprintf(self::MSG_FILE_CREATED, $path));
     }
-
 }

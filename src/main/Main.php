@@ -165,5 +165,4 @@ class Main
         stream_set_blocking(STDIN, 0);
         return trim(stream_get_contents(STDIN));
     }
-
 }

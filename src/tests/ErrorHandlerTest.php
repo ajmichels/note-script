@@ -24,13 +24,15 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 class ErrorHandlerTest extends TestCase
 {
-
     const TEST_SEVERITY = E_ERROR;
     const TEST_MESSAGE = 'test message';
     const TEST_FILENAME = '/tmp/foo.php';
     const TEST_LINE = 123;
 
-    public function testHandle_noErrorReporting_null()
+    /**
+     * @test
+     */
+    public function handleNoErrorReportingNull()
     {
         ini_set('error_reporting', 0);
         $result = ErrorHandler::handle(
@@ -42,10 +44,11 @@ class ErrorHandlerTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException ErrorException
      * @expectedExceptionMessage NoteScript\ErrorHandlerTest::TEST_MESSAGE
      */
-    public function testHandle_error_exception()
+    public function handleErrorException()
     {
         ini_set('error_reporting', E_ALL);
         ErrorHandler::handle(
@@ -55,5 +58,4 @@ class ErrorHandlerTest extends TestCase
             self::TEST_LINE
         );
     }
-
 }

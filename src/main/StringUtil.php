@@ -46,5 +46,4 @@ class StringUtil
 
         return $string;
     }
-
 }

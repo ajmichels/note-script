@@ -68,5 +68,4 @@ class Logger extends Monolog
 
         return $verbosity;
     }
-
 }

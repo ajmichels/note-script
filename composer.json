@@ -28,8 +28,11 @@
     },
     "scripts": {
         "test": ["@lint", "@unit-test"],
-        "unit-test": "vendor/bin/phpunit",
-        "lint": "vendor/bin/phpcs -n"
+        "ci-test": ["@ci-lint", "@ci-unit-test"],
+        "unit-test": "vendor/bin/phpunit --colors=always src/tests",
+        "ci-unit-test": "vendor/bin/phpunit src/tests",
+        "lint": "vendor/bin/phpcs --standard=PSR2 --colors src bin/note",
+        "ci-lint": "vendor/bin/phpcs --standard=PSR2 -n src bin/note"
     },
     "require": {
         "php": ">=5.6",

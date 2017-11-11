@@ -127,5 +127,4 @@ class Config implements ArrayAccess
 
         return $noteDir;
     }
-
 }
