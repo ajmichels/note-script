@@ -68,10 +68,10 @@ class Main
             $logger = new Logger();
             $fileUtil = new FileUtil($logger);
             echo (new Main($config, $fileUtil, $logger))->process();
-            exit(0);
+            return 0;
         } catch (Exception $e) {
             ErrorHandler::printException($e);
-            exit(1);
+            return 1;
         }
     }
 
