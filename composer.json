@@ -24,15 +24,15 @@
         "psr-4": {"NoteScript\\": "src/main/"}
     },
     "autoload-dev": {
-        "psr-4": {"NoteScript\\": "src/tests/"}
+        "psr-4": {"NoteScript\\": "tests/"}
     },
     "scripts": {
         "test": ["@lint", "@unit-test"],
         "ci-test": ["@ci-lint", "@ci-unit-test"],
-        "unit-test": "vendor/bin/phpunit --colors=always src/tests",
-        "ci-unit-test": "vendor/bin/phpunit src/tests",
-        "lint": "vendor/bin/phpcs --standard=PSR2 --colors src bin/note",
-        "ci-lint": "vendor/bin/phpcs --standard=PSR2 -n src bin/note"
+        "unit-test": "vendor/bin/phpunit --colors=always --bootstrap=vendor/autoload.php tests",
+        "ci-unit-test": "vendor/bin/phpunit --bootstrap=vendor/autoload.php tests",
+        "lint": "vendor/bin/phpcs --standard=PSR2 --colors src tests bin/note",
+        "ci-lint": "vendor/bin/phpcs --standard=PSR2 -n src tests bin/note"
     },
     "require": {
         "php": ">=5.6",
