@@ -95,7 +95,7 @@ class Main
     private function getTitleFromArgs()
     {
         $title = null;
-        $args = array_slice($_SERVER['argv'], 1);
+        $args = self::getTerminalArguments();
         $titleArg = array_search('-t', $args);
         $titleArg = $titleArg === false ? array_search('--title', $args) : $titleArg;
 
@@ -164,5 +164,13 @@ class Main
         // prevent the read from waiting for user input
         stream_set_blocking(STDIN, 0);
         return trim(stream_get_contents(STDIN));
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    private static function getTerminalArguments()
+    {
+        return array_slice($_SERVER['argv'], 1);
     }
 }

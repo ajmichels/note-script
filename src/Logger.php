@@ -55,7 +55,7 @@ class Logger extends Monolog
      */
     public static function getVerbosityFromArgs()
     {
-        $args = array_slice($_SERVER['argv'], 1);
+        $args = self::getTerminalArguments();
         $verbosity = Monolog::WARNING;
 
         if (false !== array_search('-vvv', $args)) {
@@ -67,5 +67,13 @@ class Logger extends Monolog
         }
 
         return $verbosity;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    private static function getTerminalArguments()
+    {
+        return array_slice($_SERVER['argv'], 1);
     }
 }
