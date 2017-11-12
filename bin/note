@@ -41,9 +41,16 @@ if (!$autoload) {
         PHP_EOL
     ));
 
-    die(1);
+    exit(1);
 }
 
 set_error_handler([new NoteScript\ErrorHandler(), 'handle']);
 
-exit(NoteScript\Main::run());
+$response = NoteScript\Main::run();
+if ($response->getError()) {
+    fwrite(STDERR, $response->getError());
+}
+if ($response->getOutput()) {
+    fwrite(STDOUT, $response->getOutput());
+}
+exit($response->getReturnCode());

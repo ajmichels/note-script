@@ -23,6 +23,7 @@ namespace NoteScript;
 use DateTime;
 use Exception;
 use ErrorException;
+use NoteScript\Terminal\Response;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -64,16 +65,17 @@ class Main
         $this->log = $logger;
     }
 
+    /**
+     * @return NoteScript\Terminal\Response
+     */
     public static function run()
     {
         try {
             $logger = new Logger();
             $fileWriter = new FileWriter($logger);
-            echo (new Main($fileWriter, new StringSimplifier(), $logger))->process();
-            return 0;
-        } catch (Exception $e) {
-            (new ErrorHandler())->printException($e);
-            return 1;
+            return new Response(0, (new Main($fileWriter, new StringSimplifier(), $logger))->process());
+        } catch (Exception $exception) {
+            return new Response(1, null, (new ErrorHandler())->printException($exception));
         }
     }
 
