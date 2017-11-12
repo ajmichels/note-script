@@ -31,8 +31,8 @@ class FileUtil
 
     const DEFAULT_DIR_MODE = 0700;
     const DEFAULT_FILE_MODE = 0600;
-    const MSG_FILE_EXISTS = 'File already exists (%s)';
-    const MSG_FILE_CREATED = 'File Created (%s)';
+    const MSG_FILE_EXISTS = 'File already exists';
+    const MSG_FILE_CREATED = 'File Created';
 
     /**
      * @var Psr\Log\LoggerInterface
@@ -51,30 +51,37 @@ class FileUtil
     /**
      * Will write contents to provided file path. If the directory for the file doesn't exist it
      * will be created. If the file already exists an exception will be thrown.
-     * @param  string $path    The file path to write to.
+     * @param  string $path The file path to write to.
      * @param  string $content The content to write to the file.
-     * @throws Exception
-     * @return null
+     * @throws FileException
+     * @return void
      */
     public function writeFile($path, $content)
     {
-        $directory = dirname($path);
-
-        // Create the directory if it doesn't exist
-        if (!is_dir($directory)) {
-            mkdir($directory, self::DEFAULT_DIR_MODE, true);
-        }
-
-        if (file_exists($path)) {
-            $msg = sprintf(self::MSG_FILE_EXISTS, $path);
-            $this->logger->warning($msg);
-            throw new Exception($msg);
-        }
+        $this->createDirectoryIfMissing($path);
+        $this->checkforExistingFile($path);
 
         $file = fopen($path, 'x');
         fwrite($file, $content);
         fclose($file);
         chmod($path, self::DEFAULT_FILE_MODE);
-        $this->logger->info(sprintf(self::MSG_FILE_CREATED, $path));
+        $this->logger->info(self::MSG_FILE_CREATED, ['path' => $path]);
+    }
+
+    private function createDirectoryIfMissing($path)
+    {
+        $directory = dirname($path);
+
+        if (!is_dir($directory)) {
+            mkdir($directory, self::DEFAULT_DIR_MODE, true);
+        }
+    }
+
+    private function checkForExistingFile($path)
+    {
+        if (file_exists($path)) {
+            $this->logger->warning(self::MSG_FILE_EXISTS, ['path' => $path]);
+            throw new FileException(self::MSG_FILE_EXISTS, $path);
+        }
     }
 }

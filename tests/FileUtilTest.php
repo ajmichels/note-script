@@ -30,10 +30,19 @@ class FileUtilTest extends TestCase
 
     private $fileUtil;
 
+    /**
+     * @before
+     */
     public function setUp()
     {
         $this->fileUtil = new FileUtil(new NullLogger());
+    }
 
+    /**
+     * @after
+     */
+    public function cleanUp()
+    {
         if (file_exists(self::TEST_FILEPATH)) {
             unlink(self::TEST_FILEPATH);
             rmdir(dirname(self::TEST_FILEPATH));
@@ -51,7 +60,8 @@ class FileUtilTest extends TestCase
 
     /**
      * @test
-     * @expectedException Exception
+     * @expectedException NoteScript\FileException
+     * @expectedExceptionMessage NoteScript\FileUtil::MSG_FILE_EXISTS
      */
     public function writeFileFileExistsException()
     {
