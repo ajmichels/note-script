@@ -105,6 +105,15 @@ class BinaryTest extends TestCase
         $this->assertThat($file, $this->stringContains(self::TEST_CONTENT));
     }
 
+    /**
+     * @test
+     */
+    public function fileCreatedWithContentEndsWithNewline()
+    {
+        $file = file_get_contents($this->createFileWithInput(self::TEST_CONTENT)[1]);
+        $this->assertStringEndsWith(PHP_EOL, $file);
+    }
+
     private function createFileWithInput($input)
     {
         return $this->executeCommand(sprintf(

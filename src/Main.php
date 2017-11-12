@@ -167,7 +167,7 @@ class Main
     {
         // prevent the read from waiting for user input
         stream_set_blocking(STDIN, 0);
-        return trim(stream_get_contents(STDIN));
+        return trim(stream_get_contents(STDIN)) . PHP_EOL;
     }
 
     /**
