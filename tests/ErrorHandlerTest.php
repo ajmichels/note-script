@@ -42,6 +42,7 @@ class ErrorHandlerTest extends TestCase
             self::TEST_FILENAME,
             self::TEST_LINE
         );
+        $this->assertTrue(true); // No exception has occurred
     }
 
     /**
