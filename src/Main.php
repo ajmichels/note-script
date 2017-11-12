@@ -81,10 +81,10 @@ class Main
     {
         $date = new DateTime();
         $title = $this->getTitleFromArgs();
-        $header = self::generateNoteHeader($date, $title);
-        $fileName = self::generateFileName($date, $title);
+        $header = $this->generateNoteHeader($date, $title);
+        $fileName = $this->generateFileName($date, $title);
         $filePath = sprintf('%s/%s.md', $this->getNoteDirectory(), $fileName);
-        $this->fileUtil->writeFile($filePath, $header . self::readStdIn());
+        $this->fileUtil->writeFile($filePath, $header . $this->readStdIn());
 
         return $filePath;
     }
@@ -97,7 +97,7 @@ class Main
     private function getTitleFromArgs()
     {
         $title = null;
-        $args = self::getTerminalArguments();
+        $args = $this->getTerminalArguments();
         $titleArg = array_search('-t', $args);
         $titleArg = $titleArg === false ? array_search('--title', $args) : $titleArg;
 
@@ -129,7 +129,7 @@ class Main
      * @param  string|null $title A title to include in the file name
      * @return string
      */
-    public static function generateFileName(DateTime $date, $title = null)
+    public function generateFileName(DateTime $date, $title = null)
     {
         $fileName = str_replace(' ', '-', $date->format(self::DATE_FORMAT));
 
@@ -146,7 +146,7 @@ class Main
      * @param  string|null $title An optional title to use in generating the header.
      * @return string
      */
-    public static function generateNoteHeader(DateTime $date, $title = null)
+    public function generateNoteHeader(DateTime $date, $title = null)
     {
         $header = sprintf("# Note %s\n\n", $date->format(self::DATE_FORMAT));
 
@@ -161,7 +161,7 @@ class Main
      * Retrieve any standard in content that was piped into the script.
      * @return string
      */
-    public static function readStdIn()
+    public function readStdIn()
     {
         // prevent the read from waiting for user input
         stream_set_blocking(STDIN, 0);
@@ -171,7 +171,7 @@ class Main
     /**
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    private static function getTerminalArguments()
+    private function getTerminalArguments()
     {
         return array_slice($_SERVER['argv'], 1);
     }
