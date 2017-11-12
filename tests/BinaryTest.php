@@ -108,9 +108,9 @@ class BinaryTest extends TestCase
     private function createFileWithInput($input)
     {
         return $this->executeCommand(sprintf(
-            'NOTE_HOME=%s echo "%s" | %s',
-            self::NOTE_DIR,
+            'echo "%s" | NOTE_HOME=%s %s',
             $input,
+            self::NOTE_DIR,
             self::BINARY
         ));
     }
