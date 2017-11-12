@@ -28,7 +28,6 @@ use Exception;
  */
 class ErrorHandler
 {
-
     /**
      * Transforms PHP non-exception errors and warning into exceptions.
      * @param  int     $severity  The level of the error raised, as an integer
@@ -37,7 +36,7 @@ class ErrorHandler
      * @param  int     $lineNum   The line number the error was raised at, as an integer
      * @return null
      */
-    public static function handle($severity, $message, $filename, $lineNum)
+    public function handle($severity, $message, $filename, $lineNum)
     {
         // If the error reporting level is set to none exit the function
         if (error_reporting() == 0) {
@@ -55,7 +54,7 @@ class ErrorHandler
      * @param  Exception $exception The exception to print
      * @return null
      */
-    public static function printException(Exception $exception)
+    public function printException(Exception $exception)
     {
         $stderr = fopen('php://stderr', 'w');
         fwrite($stderr, (string) $exception);

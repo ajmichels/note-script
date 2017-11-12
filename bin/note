@@ -44,6 +44,6 @@ if (!$autoload) {
     die(1);
 }
 
-set_error_handler('NoteScript\ErrorHandler::handle');
+set_error_handler([new NoteScript\ErrorHandler(), 'handle']);
 
 exit(NoteScript\Main::run());

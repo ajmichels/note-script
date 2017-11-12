@@ -35,7 +35,8 @@ class ErrorHandlerTest extends TestCase
     public function handleNoErrorReportingNull()
     {
         ini_set('error_reporting', 0);
-        ErrorHandler::handle(
+        $errorHandler = new ErrorHandler();
+        $errorHandler->handle(
             self::TEST_SEVERITY,
             self::TEST_MESSAGE,
             self::TEST_FILENAME,
@@ -51,7 +52,8 @@ class ErrorHandlerTest extends TestCase
     public function handleErrorException()
     {
         ini_set('error_reporting', E_ALL);
-        ErrorHandler::handle(
+        $errorHandler = new ErrorHandler();
+        $errorHandler->handle(
             self::TEST_SEVERITY,
             self::TEST_MESSAGE,
             self::TEST_FILENAME,

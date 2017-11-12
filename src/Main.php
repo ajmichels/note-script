@@ -82,7 +82,7 @@ class Main
             echo (new Main($config, $fileUtil, new StringUtil(), $logger))->process();
             return 0;
         } catch (Exception $e) {
-            ErrorHandler::printException($e);
+            (new ErrorHandler())->printException($e);
             return 1;
         }
     }
