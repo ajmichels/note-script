@@ -34,9 +34,9 @@ class Main
     const DATE_FORMAT = 'Y-m-d h-i-s';
 
     /**
-     * @var NoteScript\FileUtil
+     * @var NoteScript\FileWriter
      */
-    private $fileUtil;
+    private $fileWriter;
 
     /**
      * @var NoteScript\StringUtil
@@ -50,16 +50,16 @@ class Main
 
     /**
      * Constructor
-     * @param NoteScript\FileUtil $fileUtil
+     * @param NoteScript\FileWriter $fileWriter
      * @param NoteScript\StringUtil $stringUtil
      * @param Psr\Log\LoggerInterface $logger
      */
     private function __construct(
-        FileUtil $fileUtil,
+        FileWriter $fileWriter,
         StringUtil $stringUtil,
         LoggerInterface $logger
     ) {
-        $this->fileUtil = $fileUtil;
+        $this->fileWriter = $fileWriter;
         $this->stringUtil = $stringUtil;
         $this->log = $logger;
     }
@@ -68,8 +68,8 @@ class Main
     {
         try {
             $logger = new Logger();
-            $fileUtil = new FileUtil($logger);
-            echo (new Main($fileUtil, new StringUtil(), $logger))->process();
+            $fileWriter = new FileWriter($logger);
+            echo (new Main($fileWriter, new StringUtil(), $logger))->process();
             return 0;
         } catch (Exception $e) {
             (new ErrorHandler())->printException($e);
@@ -84,7 +84,7 @@ class Main
         $header = $this->generateNoteHeader($date, $title);
         $fileName = $this->generateFileName($date, $title);
         $filePath = sprintf('%s/%s.md', $this->getNoteDirectory(), $fileName);
-        $this->fileUtil->writeFile($filePath, $header . $this->readStdIn());
+        $this->fileWriter->write($filePath, $header . $this->readStdIn());
 
         return $filePath;
     }

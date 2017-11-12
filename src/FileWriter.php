@@ -24,9 +24,9 @@ use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
- * Provides methods for manipulating files.
+ * Writes files to the file system.
  */
-class FileUtil
+class FileWriter
 {
 
     const DEFAULT_DIR_MODE = 0700;
@@ -56,7 +56,7 @@ class FileUtil
      * @throws FileException
      * @return void
      */
-    public function writeFile($path, $content)
+    public function write($path, $content)
     {
         $this->createDirectoryIfMissing($path);
         $this->checkforExistingFile($path);

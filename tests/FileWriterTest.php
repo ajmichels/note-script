@@ -23,19 +23,19 @@ namespace NoteScript;
 use PHPUnit_Framework_TestCase as TestCase;
 use Psr\Log\NullLogger;
 
-class FileUtilTest extends TestCase
+class FileWriterTest extends TestCase
 {
     const TEST_FILEPATH = '/tmp/file-util-test-dir/file-util-test-file';
     const TEST_CONTENT = 'foo bar baz';
 
-    private $fileUtil;
+    private $fileWriter;
 
     /**
      * @before
      */
     public function setUp()
     {
-        $this->fileUtil = new FileUtil(new NullLogger());
+        $this->fileWriter = new FileWriter(new NullLogger());
     }
 
     /**
@@ -54,19 +54,19 @@ class FileUtilTest extends TestCase
      */
     public function writeFileCreateDir()
     {
-        $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
+        $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertTrue(is_dir(dirname(self::TEST_FILEPATH)));
     }
 
     /**
      * @test
      * @expectedException NoteScript\FileException
-     * @expectedExceptionMessage NoteScript\FileUtil::MSG_FILE_EXISTS
+     * @expectedExceptionMessage NoteScript\FileWriter::MSG_FILE_EXISTS
      */
     public function writeFileFileExistsException()
     {
-        $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
-        $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
+        $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT);
+        $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT);
     }
 
     /**
@@ -74,7 +74,7 @@ class FileUtilTest extends TestCase
      */
     public function writeFileFileCreatedFileExists()
     {
-        $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
+        $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertTrue(file_exists(self::TEST_FILEPATH));
     }
 
@@ -83,7 +83,7 @@ class FileUtilTest extends TestCase
      */
     public function writeFileFileCreatedHasContent()
     {
-        $this->fileUtil->writeFile(self::TEST_FILEPATH, self::TEST_CONTENT);
+        $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertEquals(self::TEST_CONTENT, file_get_contents(self::TEST_FILEPATH));
     }
 }
