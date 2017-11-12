@@ -20,7 +20,7 @@
 
 namespace NoteScript;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ErrorHandlerTest extends TestCase
 {
