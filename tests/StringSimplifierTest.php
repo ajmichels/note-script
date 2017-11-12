@@ -22,7 +22,7 @@ namespace NoteScript;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
-class StringUtilTest extends TestCase
+class StringSimplifierTest extends TestCase
 {
     /**
      * @test
@@ -30,7 +30,7 @@ class StringUtilTest extends TestCase
      */
     public function simplify($input, $expectedResult)
     {
-        $stringUtil = new StringUtil();
+        $stringUtil = new StringSimplifier();
         $result = $stringUtil->simplify($input);
         $this->assertEquals($expectedResult, $result);
     }

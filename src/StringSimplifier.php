@@ -21,9 +21,9 @@
 namespace NoteScript;
 
 /**
- * Utility class for manipulating strings.
+ * Simplifies strings.
  */
-class StringUtil
+class StringSimplifier
 {
     /**
      * Strip whitespace and most special characters from a string.

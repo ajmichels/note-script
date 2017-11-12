@@ -39,9 +39,9 @@ class Main
     private $fileWriter;
 
     /**
-     * @var NoteScript\StringUtil
+     * @var NoteScript\StringSimplifier
      */
-    private $stringUtil;
+    private $stringSimplifier;
 
     /**
      * @var Psr\Log\LoggerInterface
@@ -51,16 +51,16 @@ class Main
     /**
      * Constructor
      * @param NoteScript\FileWriter $fileWriter
-     * @param NoteScript\StringUtil $stringUtil
+     * @param NoteScript\StringSimplifier $stringSimplifier
      * @param Psr\Log\LoggerInterface $logger
      */
     private function __construct(
         FileWriter $fileWriter,
-        StringUtil $stringUtil,
+        StringSimplifier $stringSimplifier,
         LoggerInterface $logger
     ) {
         $this->fileWriter = $fileWriter;
-        $this->stringUtil = $stringUtil;
+        $this->stringSimplifier = $stringSimplifier;
         $this->log = $logger;
     }
 
@@ -69,7 +69,7 @@ class Main
         try {
             $logger = new Logger();
             $fileWriter = new FileWriter($logger);
-            echo (new Main($fileWriter, new StringUtil(), $logger))->process();
+            echo (new Main($fileWriter, new StringSimplifier(), $logger))->process();
             return 0;
         } catch (Exception $e) {
             (new ErrorHandler())->printException($e);
@@ -134,7 +134,7 @@ class Main
         $fileName = str_replace(' ', '-', $date->format(self::DATE_FORMAT));
 
         if ($title) {
-            $fileName .= '_' . $this->stringUtil->simplify($title);
+            $fileName .= '_' . $this->stringSimplifier->simplify($title);
         }
 
         return $fileName;
