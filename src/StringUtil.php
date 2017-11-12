@@ -25,13 +25,12 @@ namespace NoteScript;
  */
 class StringUtil
 {
-
     /**
      * Strip whitespace and most special characters from a string.
      * @param  string  $string  The string to be manipulated
      * @return string           The simplified string
      */
-    public static function simplify($string)
+    public function simplify($string)
     {
         // convert to lower case
         $string = strtolower($string);

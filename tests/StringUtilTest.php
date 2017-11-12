@@ -30,8 +30,8 @@ class StringUtilTest extends TestCase
      */
     public function simplify($input, $expectedResult)
     {
-        $result = StringUtil::simplify($input);
-
+        $stringUtil = new StringUtil();
+        $result = $stringUtil->simplify($input);
         $this->assertEquals($expectedResult, $result);
     }
 

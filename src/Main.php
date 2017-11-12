@@ -45,19 +45,31 @@ class Main
     private $fileUtil;
 
     /**
+     * @var NoteScript\StringUtil
+     */
+    private $stringUtil;
+
+    /**
      * @var Psr\Log\LoggerInterface
      */
     private $log;
 
     /**
      * Constructor
-     * @param NoteScript\Config       $config
+     * @param NoteScript\Config $config
+     * @param NoteScript\FileUtil $fileUtil
+     * @param NoteScript\StringUtil $stringUtil
      * @param Psr\Log\LoggerInterface $logger
      */
-    private function __construct(Config $config, FileUtil $fileUtil, LoggerInterface $logger)
-    {
+    private function __construct(
+        Config $config,
+        FileUtil $fileUtil,
+        StringUtil $stringUtil,
+        LoggerInterface $logger
+    ) {
         $this->config = $config;
         $this->fileUtil = $fileUtil;
+        $this->stringUtil = $stringUtil;
         $this->log = $logger;
     }
 
@@ -67,7 +79,7 @@ class Main
             $config = Config::create();
             $logger = new Logger();
             $fileUtil = new FileUtil($logger);
-            echo (new Main($config, $fileUtil, $logger))->process();
+            echo (new Main($config, $fileUtil, new StringUtil(), $logger))->process();
             return 0;
         } catch (Exception $e) {
             ErrorHandler::printException($e);
@@ -132,7 +144,7 @@ class Main
         $fileName = str_replace(' ', '-', $date->format(self::DATE_FORMAT));
 
         if ($title) {
-            $fileName .= '_' . StringUtil::simplify($title);
+            $fileName .= '_' . $this->stringUtil->simplify($title);
         }
 
         return $fileName;
