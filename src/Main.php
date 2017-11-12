@@ -31,13 +31,7 @@ use Psr\Log\LoggerInterface;
  */
 class Main
 {
-
     const DATE_FORMAT = 'Y-m-d h-i-s';
-
-    /**
-     * @var NoteScript\Config
-     */
-    private $config;
 
     /**
      * @var NoteScript\FileUtil
@@ -56,18 +50,15 @@ class Main
 
     /**
      * Constructor
-     * @param NoteScript\Config $config
      * @param NoteScript\FileUtil $fileUtil
      * @param NoteScript\StringUtil $stringUtil
      * @param Psr\Log\LoggerInterface $logger
      */
     private function __construct(
-        Config $config,
         FileUtil $fileUtil,
         StringUtil $stringUtil,
         LoggerInterface $logger
     ) {
-        $this->config = $config;
         $this->fileUtil = $fileUtil;
         $this->stringUtil = $stringUtil;
         $this->log = $logger;
@@ -76,10 +67,9 @@ class Main
     public static function run()
     {
         try {
-            $config = Config::create();
             $logger = new Logger();
             $fileUtil = new FileUtil($logger);
-            echo (new Main($config, $fileUtil, new StringUtil(), $logger))->process();
+            echo (new Main($fileUtil, new StringUtil(), $logger))->process();
             return 0;
         } catch (Exception $e) {
             (new ErrorHandler())->printException($e);
@@ -93,7 +83,7 @@ class Main
         $title = $this->getTitleFromArgs();
         $header = self::generateNoteHeader($date, $title);
         $fileName = self::generateFileName($date, $title);
-        $filePath = sprintf('%s/%s.md', $this->config[Config::NOTE_DIR], $fileName);
+        $filePath = sprintf('%s/%s.md', $this->getNoteDirectory(), $fileName);
         $this->fileUtil->writeFile($filePath, $header . self::readStdIn());
 
         return $filePath;
@@ -184,5 +174,27 @@ class Main
     private static function getTerminalArguments()
     {
         return array_slice($_SERVER['argv'], 1);
+    }
+
+    /**
+     * Retrieves the directory for storing notes by reading certain environment variables.
+     * @throws NoteScript\ConfigException
+     * @return string Path to directory
+     */
+    private static function getNoteDirectory()
+    {
+        $noteDir = getenv('NOTE_HOME');
+
+        if ($noteDir === false || trim($noteDir) === '') {
+            $homeDir = getenv('HOME');
+
+            if ($homeDir === false || trim($homeDir) === '') {
+                throw new ConfigException(sprintf(ConfigException::MSG_MISSING_ENV_VAR, 'HOME'));
+            }
+
+            $noteDir = $homeDir . '/notes';
+        }
+
+        return $noteDir;
     }
 }
