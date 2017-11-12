@@ -22,6 +22,9 @@ namespace NoteScript;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class ConfigTest extends TestCase
 {
     const TEST_KEY = 'foo';
