@@ -46,7 +46,13 @@ if (!$autoload) {
 
 set_error_handler([new NoteScript\ErrorHandler(), 'handle']);
 
-$response = NoteScript\Main::run();
+$logger = new NoteScript\Logger();
+$noteWriter = new NoteScript\NoteWriter(
+    new NoteScript\FileWriter($logger),
+    new NoteScript\Note\NoteFormatter(),
+    new NoteScript\Note\NoteFilenameFormatter(new NoteScript\StringSimplifier())
+);
+$response = (new NoteScript\Main($noteWriter, $logger))->process();
 if ($response->getError()) {
     fwrite(STDERR, $response->getError());
 }

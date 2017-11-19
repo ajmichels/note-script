@@ -4,14 +4,13 @@ namespace NoteScript;
 
 use NoteScript\Note\Note;
 use NoteScript\Note\NoteFormatter;
+use NoteScript\Note\NoteFilenameFormatter;
 
 /**
  * Writes a Note to disk.
  */
 class NoteWriter
 {
-    const DATE_FORMAT = 'Y-m-d h-i-s';
-
     /**
      * @var FileWriter An object for writing files to disk
      */
@@ -23,23 +22,23 @@ class NoteWriter
     private $noteFormatter;
 
     /**
-     * @var NoteScript\StringSimplifier
+     * @var Note\NoteFilenameFormatter
      */
-    private $stringSimplifier;
+    private $filenameFormatter;
 
     /**
      * @param FileWriter $fileWriter
      * @param Note\NoteFormatter $noteFormatter
-     * @param NoteScript\StringSimplifier $stringSimplifier
+     * @param Note\NoteFilenameFormatter
      */
     public function __construct(
         FileWriter $fileWriter,
         NoteFormatter $noteFormatter,
-        StringSimplifier $stringSimplifier
+        NoteFilenameFormatter $filenameFormatter
     ) {
         $this->fileWriter = $fileWriter;
         $this->noteFormatter = $noteFormatter;
-        $this->stringSimplifier = $stringSimplifier;
+        $this->filenameFormatter = $filenameFormatter;
     }
 
     /**
@@ -53,22 +52,11 @@ class NoteWriter
             implode('', [
                 $destination,
                 DIRECTORY_SEPARATOR,
-                $this->generateFileName($note),
+                $this->filenameFormatter->format($note),
                 '.',
                 $this->noteFormatter->getExtension(),
             ]),
             $this->noteFormatter->format($note)
         );
-    }
-
-    private function generateFileName(Note $note)
-    {
-        $fileName = str_replace(' ', '-', $note->getDate()->format(self::DATE_FORMAT));
-
-        if ($note->getTitle()) {
-            $fileName .= '_' . $this->stringSimplifier->simplify($note->getTitle());
-        }
-
-        return $fileName;
     }
 }

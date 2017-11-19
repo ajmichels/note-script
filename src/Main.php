@@ -47,7 +47,7 @@ class Main
      * @param NoteScript\NoteWriter $noteWriter
      * @param Psr\Log\LoggerInterface $logger
      */
-    private function __construct(
+    public function __construct(
         NoteWriter $noteWriter,
         LoggerInterface $logger
     ) {
@@ -58,24 +58,16 @@ class Main
     /**
      * @return NoteScript\Terminal\Response
      */
-    public static function run()
+    public function process()
     {
         try {
-            $logger = new Logger();
-            $fileWriter = new FileWriter($logger);
-            $noteWriter = new NoteWriter($fileWriter, new Note\NoteFormatter(), new StringSimplifier());
-            return new Response(0, (new Main($noteWriter, $logger))->process());
+            return new Response(0, $this->noteWriter->writeNote(
+                $this->getNoteDirectory(),
+                new Note\Note($this->getTitleFromArgs(), $this->readStdIn())
+            ));
         } catch (Exception $exception) {
             return new Response(1, null, (new ErrorHandler())->printException($exception));
         }
-    }
-
-    public function process()
-    {
-        return $this->noteWriter->writeNote(
-            $this->getNoteDirectory(),
-            new Note\Note($this->getTitleFromArgs(), $this->readStdIn())
-        );
     }
 
     /**
