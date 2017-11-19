@@ -47,7 +47,7 @@ if (!$autoload) {
 set_error_handler([new NoteScript\ErrorHandler(), 'handle']);
 
 $logger = new NoteScript\Logger();
-$noteWriter = new NoteScript\NoteWriter(
+$noteWriter = new NoteScript\Note\NoteWriter(
     new NoteScript\FileWriter($logger),
     new NoteScript\Note\NoteFormatter(),
     new NoteScript\Note\NoteFilenameFormatter(new NoteScript\StringSimplifier())

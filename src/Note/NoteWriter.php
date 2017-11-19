@@ -1,10 +1,8 @@
 <?php
 
-namespace NoteScript;
+namespace NoteScript\Note;
 
-use NoteScript\Note\Note;
-use NoteScript\Note\NoteFormatter;
-use NoteScript\Note\NoteFilenameFormatter;
+use NoteScript\FileWriter;
 
 /**
  * Writes a Note to disk.
@@ -12,24 +10,24 @@ use NoteScript\Note\NoteFilenameFormatter;
 class NoteWriter
 {
     /**
-     * @var FileWriter An object for writing files to disk
+     * @var NoteScript\FileWriter An object for writing files to disk
      */
     private $fileWriter;
 
     /**
-     * @var Note\NoteFormatter An object for converting a Note to string
+     * @var NoteFormatter An object for converting a Note to string
      */
     private $noteFormatter;
 
     /**
-     * @var Note\NoteFilenameFormatter
+     * @var NoteFilenameFormatter
      */
     private $filenameFormatter;
 
     /**
-     * @param FileWriter $fileWriter
-     * @param Note\NoteFormatter $noteFormatter
-     * @param Note\NoteFilenameFormatter
+     * @param NoteScript\FileWriter $fileWriter
+     * @param NoteFormatter $noteFormatter
+     * @param NoteFilenameFormatter
      */
     public function __construct(
         FileWriter $fileWriter,
@@ -43,7 +41,7 @@ class NoteWriter
 
     /**
      * @param string $destination Location where the note should be stored
-     * @param Note\Note $note The note to be written to a file
+     * @param Note $note The note to be written to a file
      * @return string Path to the new note file
      */
     public function writeNote($destination, Note $note)

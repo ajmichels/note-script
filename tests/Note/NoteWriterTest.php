@@ -1,7 +1,8 @@
 <?php
 
-namespace NoteScript;
+namespace NoteScript\Note;
 
+use NoteScript\FileWriter;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class NoteWriterTest extends TestCase
@@ -25,10 +26,10 @@ class NoteWriterTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->mockFileWriter->method('write')->will($this->returnArgument(0));
-        $this->mockNoteFormatter = $this->getMockBuilder(Note\NoteFormatter::class)
+        $this->mockNoteFormatter = $this->getMockBuilder(NoteFormatter::class)
             ->getMock();
         $this->mockNoteFormatter->method('getExtension')->willReturn(self::EXTENSION);
-        $this->mockNoteFilenameFormatter = $this->getMockBuilder(Note\NoteFilenameFormatter::class)
+        $this->mockNoteFilenameFormatter = $this->getMockBuilder(NoteFilenameFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->mockNoteFilenameFormatter->method('format')->willReturn(self::FILENAME);
@@ -55,7 +56,7 @@ class NoteWriterTest extends TestCase
         $this->mockNoteFormatter->method('format')->willReturn(self::CONTENT);
 
         $this->mockFileWriter->expects($this->once())->method('write')->with($this->expectedPath, self::CONTENT);
-        $this->noteWriter->writeNote(self::PATH, new Note\Note());
+        $this->noteWriter->writeNote(self::PATH, new Note());
     }
 
     /**
@@ -63,6 +64,6 @@ class NoteWriterTest extends TestCase
      */
     public function writeNoteReturnsPath()
     {
-        $this->assertEquals($this->expectedPath, $this->noteWriter->writeNote(self::PATH, new Note\Note()));
+        $this->assertEquals($this->expectedPath, $this->noteWriter->writeNote(self::PATH, new Note()));
     }
 }

@@ -33,7 +33,7 @@ use Psr\Log\LoggerInterface;
 class Main
 {
     /**
-     * @var NoteScript\NoteWriter
+     * @var Note\NoteWriter
      */
     private $noteWriter;
 
@@ -44,11 +44,11 @@ class Main
 
     /**
      * Constructor
-     * @param NoteScript\NoteWriter $noteWriter
+     * @param Note\NoteWriter $noteWriter
      * @param Psr\Log\LoggerInterface $logger
      */
     public function __construct(
-        NoteWriter $noteWriter,
+        Note\NoteWriter $noteWriter,
         LoggerInterface $logger
     ) {
         $this->noteWriter = $noteWriter;
