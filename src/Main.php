@@ -32,17 +32,10 @@ use Psr\Log\LoggerInterface;
  */
 class Main
 {
-    const DATE_FORMAT = 'Y-m-d h-i-s';
-
     /**
-     * @var NoteScript\FileWriter
+     * @var NoteScript\NoteWriter
      */
-    private $fileWriter;
-
-    /**
-     * @var NoteScript\StringSimplifier
-     */
-    private $stringSimplifier;
+    private $noteWriter;
 
     /**
      * @var Psr\Log\LoggerInterface
@@ -51,17 +44,14 @@ class Main
 
     /**
      * Constructor
-     * @param NoteScript\FileWriter $fileWriter
-     * @param NoteScript\StringSimplifier $stringSimplifier
+     * @param NoteScript\NoteWriter $noteWriter
      * @param Psr\Log\LoggerInterface $logger
      */
     private function __construct(
-        FileWriter $fileWriter,
-        StringSimplifier $stringSimplifier,
+        NoteWriter $noteWriter,
         LoggerInterface $logger
     ) {
-        $this->fileWriter = $fileWriter;
-        $this->stringSimplifier = $stringSimplifier;
+        $this->noteWriter = $noteWriter;
         $this->log = $logger;
     }
 
@@ -73,7 +63,8 @@ class Main
         try {
             $logger = new Logger();
             $fileWriter = new FileWriter($logger);
-            return new Response(0, (new Main($fileWriter, new StringSimplifier(), $logger))->process());
+            $noteWriter = new NoteWriter($fileWriter, new Note\NoteFormatter(), new StringSimplifier());
+            return new Response(0, (new Main($noteWriter, $logger))->process());
         } catch (Exception $exception) {
             return new Response(1, null, (new ErrorHandler())->printException($exception));
         }
@@ -81,14 +72,10 @@ class Main
 
     public function process()
     {
-        $date = new DateTime();
-        $title = $this->getTitleFromArgs();
-        $header = $this->generateNoteHeader($date, $title);
-        $fileName = $this->generateFileName($date, $title);
-        $filePath = sprintf('%s/%s.md', $this->getNoteDirectory(), $fileName);
-        $this->fileWriter->write($filePath, $header . $this->readStdIn());
-
-        return $filePath;
+        return $this->noteWriter->writeNote(
+            $this->getNoteDirectory(),
+            new Note\Note($this->getTitleFromArgs(), $this->readStdIn())
+        );
     }
 
     /**
@@ -126,44 +113,10 @@ class Main
     }
 
     /**
-     * Generate a file name.
-     * @param  DateTime $date  A date to be used in the file name
-     * @param  string|null $title A title to include in the file name
-     * @return string
-     */
-    public function generateFileName(DateTime $date, $title = null)
-    {
-        $fileName = str_replace(' ', '-', $date->format(self::DATE_FORMAT));
-
-        if ($title) {
-            $fileName .= '_' . $this->stringSimplifier->simplify($title);
-        }
-
-        return $fileName;
-    }
-
-    /**
-     * Generates header text for a new note file.
-     * @param  DateTime    $date  A date to be used in the header
-     * @param  string|null $title An optional title to use in generating the header.
-     * @return string
-     */
-    public function generateNoteHeader(DateTime $date, $title = null)
-    {
-        $header = sprintf("# Note %s\n\n", $date->format(self::DATE_FORMAT));
-
-        if ($title) {
-            $header = sprintf("# %s\n%s\n\n", $title, $date->format(self::DATE_FORMAT));
-        }
-
-        return $header;
-    }
-
-    /**
      * Retrieve any standard in content that was piped into the script.
      * @return string
      */
-    public function readStdIn()
+    private function readStdIn()
     {
         // prevent the read from waiting for user input
         stream_set_blocking(STDIN, 0);

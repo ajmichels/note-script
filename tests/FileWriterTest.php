@@ -86,4 +86,12 @@ class FileWriterTest extends TestCase
         $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT);
         $this->assertEquals(self::TEST_CONTENT, file_get_contents(self::TEST_FILEPATH));
     }
+
+    /**
+     * @test
+     */
+    public function writeReturnsGivenPath()
+    {
+        $this->assertEquals(self::TEST_FILEPATH, $this->fileWriter->write(self::TEST_FILEPATH, self::TEST_CONTENT));
+    }
 }

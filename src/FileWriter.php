@@ -54,7 +54,7 @@ class FileWriter
      * @param  string $path The file path to write to.
      * @param  string $content The content to write to the file.
      * @throws FileException
-     * @return void
+     * @return string The path the file was written to.
      */
     public function write($path, $content)
     {
@@ -66,6 +66,8 @@ class FileWriter
         fclose($file);
         chmod($path, self::DEFAULT_FILE_MODE);
         $this->logger->info(self::MSG_FILE_CREATED, ['path' => $path]);
+
+        return $path;
     }
 
     private function createDirectoryIfMissing($path)
