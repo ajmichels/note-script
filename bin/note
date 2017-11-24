@@ -46,13 +46,10 @@ if (!$autoload) {
 
 set_error_handler([new NoteScript\ErrorHandler(), 'handle']);
 
-$logger = new NoteScript\Logger();
-$noteWriter = new NoteScript\Note\NoteWriter(
-    new NoteScript\FileWriter($logger),
-    new NoteScript\Note\NoteFormatter(),
-    new NoteScript\Note\NoteFilenameFormatter(new NoteScript\StringSimplifier())
-);
-$response = (new NoteScript\Main($noteWriter, $logger))->process();
+$container = new NoteScript\Container();
+include __DIR__ . '/../src/bootstrap.php';
+
+$response = $container->get(NoteScript\Main::class)->process();
 if ($response->getError()) {
     fwrite(STDERR, $response->getError());
 }
