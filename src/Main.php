@@ -128,7 +128,7 @@ class Main
      * @throws NoteScript\ConfigException
      * @return string Path to directory
      */
-    private static function getNoteDirectory()
+    private function getNoteDirectory()
     {
         $noteDir = getenv('NOTE_HOME');
 
