@@ -3,7 +3,7 @@
 namespace NoteScript\Note;
 
 use NoteScript\StringSimplifier;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class NoteFilenameFormatterTest extends TestCase
 {

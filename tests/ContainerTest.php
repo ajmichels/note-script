@@ -2,7 +2,7 @@
 
 namespace NoteScript;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ContainerTest extends TestCase
 {

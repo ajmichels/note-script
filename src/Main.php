@@ -85,7 +85,6 @@ class Main
         if ($titleArg !== false) {
             try {
                 $title = trim($args[$titleArg+1]) ?: null;
-
             } catch (ErrorException $exception) {
                 if (preg_match('/Undefined offset/i', $exception->getMessage())) {
                     $this->log->warning('Missing Title Value');

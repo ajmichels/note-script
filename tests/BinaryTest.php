@@ -2,7 +2,7 @@
 
 namespace NoteScript;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing the binary file as the final point of failure.

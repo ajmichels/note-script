@@ -20,7 +20,7 @@
 
 namespace NoteScript;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
 class FileWriterTest extends TestCase

@@ -3,7 +3,7 @@
 namespace NoteScript\Note;
 
 use DateTime;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class NoteFormatterTest extends TestCase
 {
